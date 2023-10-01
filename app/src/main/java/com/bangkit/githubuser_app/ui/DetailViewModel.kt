@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bangkit.githubuser_app.data.retrofit.ApiConfig
 import com.bangkit.githubuser_app.data.retrofit.DetailItem
+import com.bangkit.githubuser_app.database.FavoriteUser
+import com.bangkit.githubuser_app.repository.FavoritesRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel: ViewModel() {
+class DetailViewModel(private val favoritesRepository: FavoritesRepository): ViewModel() {
     private val _detailUser = MutableLiveData<DetailItem>()
     val detailUser: LiveData<DetailItem> = _detailUser
 
@@ -42,5 +44,17 @@ class DetailViewModel: ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+    fun getFavoritesUser() = favoritesRepository.getFavoritesUser()
+
+    fun saveUser(user: FavoriteUser) {
+        Log.d("DetailViewModel", "Saving user: $user")
+        favoritesRepository.setFavoritesUser(user,   true)
+        Log.d("DetailViewModel", "User saved successfully")
+    }
+
+    fun deleteUser(user: FavoriteUser) {
+        favoritesRepository.setFavoritesUser(user, false)
     }
 }

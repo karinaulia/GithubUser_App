@@ -2,14 +2,16 @@ package com.bangkit.githubuser_app.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bangkit.githubuser_app.R
 import com.bangkit.githubuser_app.data.retrofit.DetailItem
+import com.bangkit.githubuser_app.database.FavoriteUser
 import com.bangkit.githubuser_app.databinding.ActivityDetailBinding
 import com.bumptech.glide.Glide
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -25,6 +27,7 @@ class DetailActivity : AppCompatActivity() {
         )
 
         const val data = "username"
+        const val avatarData = "avatarUrl"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +35,8 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = intent.getStringExtra(data)
+        val username = intent.getStringExtra(data) ?: ""
+        val avatarUrl = intent.getStringExtra(avatarData) ?: ""
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, username ?: "")
         val viewPager: ViewPager2 = findViewById(R.id.view_pager)
@@ -45,12 +49,30 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
 
-        val detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
+        val detailViewModel by viewModels<DetailViewModel>(){
+            ViewModelFactory.getInstance(application)
+        }
+        val fabFavorite = findViewById<FloatingActionButton>(R.id.fab_favorite)
+        fabFavorite.setOnClickListener {
+            if (detailViewModel.detailUser.value != null) {
+                val favoriteUser = FavoriteUser(username, avatarUrl, false)
+                detailViewModel.deleteUser(favoriteUser)
+            } else {
+                val favoriteUser = FavoriteUser(username, avatarUrl, true)
+                detailViewModel.saveUser(favoriteUser)
+            }
+        }
+
         username?.let {
             detailViewModel.getDetailUser(it)
         }
-        detailViewModel.detailUser.observe(this) {userData ->
+        detailViewModel.detailUser.observe(this) { userData ->
             setDetailUser(userData)
+            if (userData != null) {
+                fabFavorite.setImageResource(R.drawable.ic_favorite)
+            } else {
+                fabFavorite.setImageResource(R.drawable.ic_favorite_border)
+            }
         }
         detailViewModel.isLoading.observe(this) {showLoading(it)}
     }
