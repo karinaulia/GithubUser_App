@@ -1,11 +1,14 @@
 package com.bangkit.githubuser_app.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bangkit.githubuser_app.R
 import com.bangkit.githubuser_app.data.retrofit.ItemsItem
 import com.bangkit.githubuser_app.databinding.ActivityMainBinding
 
@@ -47,14 +50,19 @@ class MainActivity : AppCompatActivity() {
                 }
         }
 
+        val favoriteButton = findViewById<ImageView>(R.id.favoriteButton)
+        favoriteButton.setOnClickListener {
+            val intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
+
         adapter = UserAdapter()
+        binding.rvUsers.adapter = adapter
     }
 
     private fun setUsersData(items: List<ItemsItem>) {
         searchView = items
-        val adapter = UserAdapter()
         adapter.submitList(searchView)
-        binding.rvUsers.adapter = adapter
     }
 
     private fun showLoading(isLoading: Boolean) {

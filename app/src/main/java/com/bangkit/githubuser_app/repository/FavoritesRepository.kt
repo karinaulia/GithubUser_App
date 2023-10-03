@@ -16,10 +16,22 @@ class FavoritesRepository private constructor(
         return favoriteDao.getAllFavorites()
     }
 
-    fun setFavoritesUser(fav: FavoriteUser, favoriteState: Boolean) {
+    fun setFavoritesUser(username: String, avatarUrl: String) {
         appExecutors.diskIO.execute {
-            fav.isLoved = favoriteState
-            favoriteDao.insert(fav)
+            val favoriteUser = FavoriteUser(username, avatarUrl)
+            favoriteDao.insert(favoriteUser)
+        }
+    }
+
+    fun isUserFavorite(username: String): LiveData<List<FavoriteUser>> {
+        val result = favoriteDao.isUserFavorite(username)
+        return result
+    }
+
+    fun deleteFavoritesUser(username: String, avatarUrl: String) {
+        appExecutors.diskIO.execute {
+            val favoriteUser = FavoriteUser(username, avatarUrl)
+            favoriteDao.delete(favoriteUser)
         }
     }
 

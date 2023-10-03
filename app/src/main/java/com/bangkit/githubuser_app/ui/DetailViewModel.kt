@@ -46,15 +46,15 @@ class DetailViewModel(private val favoritesRepository: FavoritesRepository): Vie
         })
     }
 
-    fun getFavoritesUser() = favoritesRepository.getFavoritesUser()
+    fun getFavoritesUser(username: String) = favoritesRepository.isUserFavorite(username)
 
-    fun saveUser(user: FavoriteUser) {
-        Log.d("DetailViewModel", "Saving user: $user")
-        favoritesRepository.setFavoritesUser(user,   true)
+    fun saveUser(favoriteUser: FavoriteUser) {
+        Log.d("DetailViewModel", "Saving user: $favoriteUser")
+        favoritesRepository.setFavoritesUser(favoriteUser.username, favoriteUser.avatarUrl ?: "")
         Log.d("DetailViewModel", "User saved successfully")
     }
 
-    fun deleteUser(user: FavoriteUser) {
-        favoritesRepository.setFavoritesUser(user, false)
+    fun deleteUser(favoriteUser: FavoriteUser) {
+        favoritesRepository.deleteFavoritesUser(favoriteUser.username, favoriteUser.avatarUrl ?: "")
     }
 }

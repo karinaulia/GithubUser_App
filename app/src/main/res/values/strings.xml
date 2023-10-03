@@ -7,4 +7,8 @@
     <string name="content_tab_home">Ini halaman Followers</string>
     <string name="content_tab_profile">Ini halaman Following</string>
     <string name="favorite_button_description">Favorite User</string>
+    <string name="toolbar_name">Find Github Users</string>
+    <string name="settings_button_description">Halaman Settings</string>
+    <string name="toolbar_favorite_name">Favorite</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

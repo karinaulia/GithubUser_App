@@ -21,7 +21,7 @@ class UserAdapter() : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALL
         holder.bind(items)
     }
 
-    class MyViewHolder(val binding: UserProfileBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: UserProfileBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: ItemsItem){
             Glide.with(itemView.context)
                 .load(user.avatarUrl)
@@ -30,6 +30,7 @@ class UserAdapter() : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALL
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra("username", user.login)
+                intent.putExtra(DetailActivity.avatarData, user.avatarUrl)
                 itemView.context.startActivity(intent)
             }
         }
