@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,12 +26,21 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
+        val viewModelFactory = ViewModelFactory.getInstance(applicationContext)
+        val mainViewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+
         mainViewModel.user.observe(this) {user ->
             setUsersData(user)
         }
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
+        }
+        mainViewModel.getTheme().observe(this) { isDarkModeActive ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
 
         val layoutManager = LinearLayoutManager(this)
@@ -53,6 +63,12 @@ class MainActivity : AppCompatActivity() {
         val favoriteButton = findViewById<ImageView>(R.id.favoriteButton)
         favoriteButton.setOnClickListener {
             val intent = Intent(this, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
+
+        val settingsButton = findViewById<ImageView>(R.id.settingsButton)
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 

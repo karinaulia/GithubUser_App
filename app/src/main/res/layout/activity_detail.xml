@@ -115,7 +115,7 @@
                     android:layout_gravity="center"
                     app:tabGravity="fill"
                     app:tabMode="fixed"
-                    app:tabTextColor="@color/md_theme_light_onPrimaryContainer" />
+                    app:tabTextColor="@color/design_default_color_primary" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -123,7 +123,6 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/md_theme_light_onPrimary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

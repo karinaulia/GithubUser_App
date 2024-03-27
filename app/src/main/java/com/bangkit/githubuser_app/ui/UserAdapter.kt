@@ -10,7 +10,7 @@ import com.bangkit.githubuser_app.data.retrofit.ItemsItem
 import com.bangkit.githubuser_app.databinding.UserProfileBinding
 import com.bumptech.glide.Glide
 
-class UserAdapter() : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBACK){
+class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBACK){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = UserProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)

@@ -1,15 +1,16 @@
 package com.bangkit.githubuser_app.repository
 
 import androidx.lifecycle.LiveData
-import com.bangkit.githubuser_app.data.retrofit.ApiService
+import com.bangkit.githubuser_app.SettingPreference
 import com.bangkit.githubuser_app.database.FavoriteDao
 import com.bangkit.githubuser_app.database.FavoriteUser
 import com.bangkit.githubuser_app.utils.AppExecutors
+import kotlinx.coroutines.flow.Flow
 
 class FavoritesRepository private constructor(
-    private val apiService: ApiService,
     private val favoriteDao: FavoriteDao,
-    private val appExecutors: AppExecutors
+    private val appExecutors: AppExecutors,
+    private val settingPreference: SettingPreference
 ){
 
     fun getFavoritesUser(): LiveData<List<FavoriteUser>> {
@@ -24,8 +25,7 @@ class FavoritesRepository private constructor(
     }
 
     fun isUserFavorite(username: String): LiveData<List<FavoriteUser>> {
-        val result = favoriteDao.isUserFavorite(username)
-        return result
+        return favoriteDao.isUserFavorite(username)
     }
 
     fun deleteFavoritesUser(username: String, avatarUrl: String) {
@@ -35,16 +35,20 @@ class FavoritesRepository private constructor(
         }
     }
 
+    fun getThemeSettings(): Flow<Boolean> = settingPreference.getThemeSetting()
+
+    suspend fun saveTheme(isDarkModeActive: Boolean) = settingPreference.saveThemeSetting(isDarkModeActive)
+
     companion object {
         @Volatile
         private var instance: FavoritesRepository? = null
         fun getInstance(
-            apiService: ApiService,
             newsDao: FavoriteDao,
-            appExecutors: AppExecutors
+            appExecutors: AppExecutors,
+            settingPreference: SettingPreference
         ): FavoritesRepository =
             instance ?: synchronized(this) {
-                instance ?: FavoritesRepository(apiService, newsDao, appExecutors)
+                instance ?: FavoritesRepository(newsDao, appExecutors, settingPreference)
             }.also { instance = it }
     }
 }

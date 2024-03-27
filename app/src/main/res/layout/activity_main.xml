@@ -27,16 +27,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/toolbar_name"
                 android:textColor="@android:color/white"
+                android:contentDescription="@string/toolbar_home"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/favoriteButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/favorite_button_description"
+                android:background="@color/transparent"
                 android:src="@drawable/ic_favorite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/settingsButton"
@@ -44,12 +46,13 @@
                 app:layout_constraintStart_toEndOf="@id/toolbarTitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
+                android:background="@color/transparent"
                 android:src="@drawable/ic_settings"
                 android:contentDescription="@string/settings_button_description"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -4,14 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.bangkit.githubuser_app.data.retrofit.ApiConfig
 import com.bangkit.githubuser_app.data.retrofit.ItemsItem
 import com.bangkit.githubuser_app.data.retrofit.UsersResponse
+import com.bangkit.githubuser_app.repository.FavoritesRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel(){
+class MainViewModel(private val favoritesRepository: FavoritesRepository) : ViewModel(){
 
     private val _user = MutableLiveData<List<ItemsItem>>()
     val user: LiveData<List<ItemsItem>> = _user
@@ -50,4 +52,6 @@ class MainViewModel : ViewModel(){
             }
         })
     }
+
+    fun getTheme(): LiveData<Boolean> = favoritesRepository.getThemeSettings().asLiveData()
 }

@@ -11,4 +11,6 @@
     <string name="settings_button_description">Halaman Settings</string>
     <string name="toolbar_favorite_name">Favorite</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="toolbar_home">"Ini halaman utama "</string>
+    <string name="splash_screen">Halaman Splash Screen</string>
 </resources>
